@@ -141,10 +141,8 @@ class FAStepper extends StatefulWidget {
     this.onStepCancel,
     this.controlsBuilder,
     this.disableColor,
-    this.editingTextColor,
-    this.editingIconColor,
-    this.completeIconColor,
-    this.completeTextColor,
+    this.editingColor,
+    this.completeColor,
     this.lineColor
   })  : assert(steps != null),
         assert(type != null),
@@ -246,13 +244,9 @@ class FAStepper extends StatefulWidget {
   /// {@end-tool}
   final ControlsWidgetBuilder controlsBuilder;
 
-  final Color editingTextColor;
-  final Color editingIconColor;
-  final Color completeTextColor;
-  final Color completeIconColor;
-
+  final Color editingColor;
   final Color disableColor;
-  
+  final Color completeColor;  
   final Color lineColor;
   
   @override
@@ -344,17 +338,17 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
     final ThemeData themeData = Theme.of(context);
     if (!_isDark()) {
       if (widget.steps[index].state == FAStepstate.complete) {
-        return  widget.completeIconColor ?? IposColors.stepCompleteColor;
+        return widget.completeColor ?? IposColors.stepCompleteColor;
       }
       return widget.steps[index].isActive
-          ? widget.stepNumberColor //IposColors.stepEdit
+          ? widget.editingColor ?? widget.stepNumberColor //IposColors.stepEdit
           : widget.disableColor ?? Colors.black38;
     } else {
       if (widget.steps[index].state == FAStepstate.complete) {
-        return IposColors.stepCompleteColor;
+        return widget.completeColor ?? IposColors.stepCompleteColor;
       }
       return widget.steps[index].isActive
-          ?  widget.stepNumberColor //IposColors.stepEdit
+          ? widget.editingColor ?? widget.stepNumberColor //IposColors.stepEdit
           : widget.disableColor ?? Colors.black38;
     }
   }
@@ -490,12 +484,12 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
       case FAStepstate.indexed:
         return textTheme.body2;
       case FAStepstate.editing:
-        return textTheme.body2.copyWith(color: widget.editingTextColor);
+        return textTheme.body2.copyWith(color: widget.editingColor);
       case FAStepstate.complete:
-        return textTheme.body2.copyWith(color: widget.completeTextColor);
+        return textTheme.body2.copyWith(color: widget.completeColor);
       case FAStepstate.disabled:
         return textTheme.body2
-            .copyWith(color: _isDark() ? _kDisabledDark : widget.disableColor ?? _kDisabledLight);
+            .copyWith(color: _isDark() ? widget.disableColor ?? _kDisabledDark : widget.disableColor ?? _kDisabledLight);
       case FAStepstate.error:
         return textTheme.body2
             .copyWith(color: _isDark() ? _kErrorDark : _kErrorLight);
@@ -531,7 +525,7 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
             children: <Widget>[
               AnimatedDefaultTextStyle(
                 style: (index == widget.currentStep)
-                    ? TextStyle(color: widget.editingTextColor ?? Colors.blue, fontWeight: FontWeight.w800)
+                    ? TextStyle(color: widget.editingColor ?? Colors.blue, fontWeight: FontWeight.w800)
                     : TextStyle(
                         color: widget.disableColor ?? Colors.brown,
                         fontWeight: FontWeight.normal), //_titleStyle(index),
