@@ -143,6 +143,7 @@ class FAStepper extends StatefulWidget {
     this.disableColor,
     this.editingColor,
     this.completeColor,
+    this.iconDisableColor,
     this.lineColor
   })  : assert(steps != null),
         assert(type != null),
@@ -248,6 +249,7 @@ class FAStepper extends StatefulWidget {
   final Color disableColor;
   final Color completeColor;  
   final Color lineColor;
+  final Color iconDisableColor;
   
   @override
   _FAStepperState createState() => _FAStepperState();
@@ -314,7 +316,7 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
           '${index + 1}',
           style: isDarkActive
               ? _kStepStyle.copyWith(color: Colors.black87)
-              : _kStepStyle.copyWith(color: widget.disableColor ),
+              : _kStepStyle.copyWith(color: widget.iconDisableColor ),
         );
       case FAStepstate.editing:
         return Icon(
@@ -340,6 +342,12 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
       if (widget.steps[index].state == FAStepstate.complete) {
         return widget.completeColor ?? IposColors.stepCompleteColor;
       }
+
+      else if (widget.steps[index].state == FAStepstate.editing) {
+        return widget.editingColor ?? IposColors.stepEdit;
+      }
+
+
       return widget.steps[index].isActive
           ? widget.editingColor ?? widget.stepNumberColor //IposColors.stepEdit
           : widget.disableColor ?? Colors.black38;
@@ -714,7 +722,7 @@ class _FAStepperState extends State<FAStepper> with TickerProviderStateMixin {
                             margin: const EdgeInsets.symmetric(horizontal: 8.0),
                             height: 1.0,
                             width: 18,
-                            color: Colors.blue,
+                            color: widget.lineColor ?? Colors.blue,
                           ),
                       ])
                 : Row(
