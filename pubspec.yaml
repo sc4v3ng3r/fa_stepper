@@ -1,8 +1,8 @@
 name: fa_stepper
-description: advanced horizontal style of stepper.
-version: 0.0.2
-author: di phan<dipnv.fs@gmail.com>
-homepage: https://github.com/dipnv/flutter_stepper
+description: advanced horizontal style of stepper with some tweaks.
+version: 0.0.3
+author: di phan<dipnv.fs@gmail.com> & sc4v3ng3r <scavenger.gnu@gmail.com>
+homepage: https://github.com/sc4v3ng3r/fa_stepper
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
